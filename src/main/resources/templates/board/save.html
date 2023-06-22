@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content">
+    <style>
+        .alert{
+       color: #5f0080;
+       font-size : 30px;
+       background-color: #FFFFFF;
+       font-weight: bold;
+       text-align: center;
+     }
+
+    </style>
+
+    <div class="container">
+        <br/>
+        <div class="alert alert-light" role="alert">게시판</div>
+
+    <form action="/board/save" method="post" enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label for="title" class="form-label">제목</label>
+            <input type="text" class="form-control" id="title" name="title">
+        </div>
+
+        <div class="mb-3">
+            <label for="content" class="form-label">내용</label>
+            <textarea class="form-control" id="content" name="content" rows="5"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="boardFile" class="form-label"></label>
+            <input type="file" class="form-control" id="boardFile" name="boardFile" multiple>
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-outline-primary" style="color: #5F0080; background-color: #FFFFFF; border-color: #5F0080;">작성</button>
+            <a type="button" href="/board/paging" class="btn btn-outline-primary" style="color: #5F0080; background-color: #FFFFFF; border-color: #5F0080;">취소</a>
+        </div>
+
+    </form>
+
+    </div>
+</div>
+</html>

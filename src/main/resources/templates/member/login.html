@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content">
+
+    <style>
+        .error { color: #bd2130; border-color: #dc3545;}
+        .width { max-width: 560px; }
+        .login-top h1 { font: 'Noto Sans'; font-weight: bold;}
+
+    </style>
+
+    <div class="width container col-6">
+        <div class="login-top py-5 text-center">
+            <h1>로그인</h1>
+        </div>
+
+        <form method="post" action="/login">
+            <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p>
+            <div>
+                <label for="userId"></label>
+                <input type="text" id="userId" name="userId" class="w-100 form-control" placeholder="아이디" style="height: 54px;">
+            </div>
+            <div>
+                <label for="password"></label>
+                <input type="password" id="password" name="password" class="w-100 form-control" placeholder="비밀번호" style="height: 54px;">
+            </div>
+            <hr class="my-4">
+
+            <div class="row">
+                <button class="w-100 btn btn-lg text-white" style="background-color: #5F0080; font-size: 23px;" type="submit">로그인</button>
+            </div>
+            <div class="row mt-3">
+                <button type="button" class="w-100 btn btn-outline-primary btn-lg" style="color: #5F0080; height: 54px; background-color: #FFFFFF; border-color: #5F0080;" th:onclick="|location.href='@{/join}'|">회원가입</button>
+            </div>
+
+            <div class="row mt-3 justify-content-center">
+                <div class="col">
+                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=10ef4383058ba6de6bb30e00a0fc66b4&redirect_uri=http://localhost/auth/kakao/callback&response_type=code">
+                        <img src="/image/btn_kakao.png" style="width: 80px; height: 80px;">
+                    </a>
+                </div>
+                <div class="col text-center">
+                    <a th:onclick="|location.href='@{/oauth2/authorization/naver}'|">
+                        <img src="/image/btn_naver.png" style="width: 80px; height: 80px;">
+                    </a>
+                </div>
+                <div class="col text-center">
+                    <a th:onclick="|location.href='@{/oauth2/authorization/google}'|">
+                        <img src="/image/btn_google.png">
+                    </a>
+                </div>
+            </div>
+
+
+        </form>
+
+
+    </div>
+</div>
+</html>

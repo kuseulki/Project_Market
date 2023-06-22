@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>마이 페이지</title>
+    </head>
+
+    <style>
+    .alert{
+       color: #5f0080;
+       font-size : 30px;
+       background-color: #FFFFFF;
+       font-weight: bold;
+       text-align: center;
+     }
+     .btn{
+         font-weight: 800;
+         font-size: 35px;
+     }
+     .card-body {
+        font: 'Noto Sans';
+        text-align: center;
+     }
+    </style>
+
+    <div class="container">
+
+        <div class="alert alert-light" role="alert">마이 페이지</div>
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="card m-2">
+                    <div class="card-body">
+                        <a class="btn btn-lg card-title" th:href="@{/item/new}">상품등록</a>
+                        <div style="font-size: 15px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card m-2">
+                    <div class="card-body">
+                        <a class="btn btn-lg card-title" th:href="@{/admin/user/all}">회원관리</a>
+                        <div style="font-size: 15px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card m-2">
+                    <div class="card-body">
+                        <a class="btn btn-lg card-title" th:href="@{/admin/item/all}">상품관리</a>
+                        <div style="font-size: 15px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card m-2">
+                    <div class="card-body">
+                        <a class="btn btn-lg card-title" th:href="@{/categories}">카테고리등록</a>
+                        <div style="font-size: 15px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card m-2">
+                    <div class="card-body">
+                        <a class="btn btn-lg card-title" th:href="@{/categories/list}">카테고리관리</a>
+                        <div style="font-size: 15px;">.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</html>
+
+
+
+
+

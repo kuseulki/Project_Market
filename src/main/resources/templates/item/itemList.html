@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content">
+
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+                <div class="col mb-5" th:each="item : ${items}">
+
+                    <div class="card h-100 border-0">
+
+                        <a th:href="'/item/' +${item.id}" class="text-dark" style="text-decoration: none;">
+
+                            <img class="card-img-top" th:src="${item.savePath}" th:alt="${item.itemName}">
+                            <div class="card-body p-3">
+                                <div class="text-left">
+                                    <h5 th:text="${item.getItemName()}">상품이름</h5>
+                                    <h6 th:text="${item.getItemDetail()}" style="color: #959393; font-size: 14px;">상품설명</h6>
+                                    <h5 class="fw-bolder pt-2" th:text="|${item.getPrice()}원|">상품가격</h5>
+                                </div>
+                            </div>
+
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" th:href="${items.first} ? '#' : @{/item/list(page=${items.number})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <!-- 페이지 번호 링크(현재 페이지는 숫자만) -->
+                    <li class="page-item" th:each="page: ${#numbers.sequence(startPage, endPage)}">
+                        <!-- 현재페이지는 링크 없이 숫자만 -->
+                        <span class="page-link" th:if="${page == items.number + 1}" th:text="${page}"></span>
+                        <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
+                        <span class="page-link" th:unless="${page == items.number + 1}">
+                        <a th:href="@{/item/list(page=${page})}" th:text="${page}"></a>
+                    </span>
+                    </li>
+
+                    <li class="page-item">
+                        <a class="page-link" th:href="${items.last} ? '#' : @{/item/list(page=${items.number + 2})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+
+
+        </div>
+    </section>
+
+
+
+
+</div>
+</html>

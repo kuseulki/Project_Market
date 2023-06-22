@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content">
+    <th:block layout:fragment="script">
+
+        <script th:inline="javascript">
+        $(document).ready(function(){
+            var errorMessage = [[${errorMessage}]];
+            if(errorMessage != null){
+                alert(errorMessage);
+            }
+            bindDomEvent();
+        });
+
+        function bindDomEvent(){
+            $(".custom-file-input").on("change", function() {
+                var fileName = $(this).val().split("\\").pop();
+                var fileExt = fileName.substring(fileName.lastIndexOf(".")+1);
+                fileExt = fileExt.toLowerCase();
+
+                if(fileExt != "jpg" && fileExt != "jpeg" && fileExt != "gif" && fileExt != "png" && fileExt != "bmp"){
+                    alert("이미지 파일만 등록이 가능합니다.");
+                    return;
+                }
+                $(this).siblings(".custom-file-label").html(fileName);
+            });
+        }
+    </script>
+    </th:block>
+
+    <th:block layout:fragment="css">
+        <style>
+            .alert {
+         color: #5F0080;
+         font-size : 30px;
+         background-color: #ffffff;
+         font-weight: bold;
+         text-align: center;
+     }
+    </style>
+    </th:block>
+
+    <div class="container">
+        <div class="alert alert-light" role="alert">상품수정</div>
+
+        <div class="px-4 px-lg-5 my-5">
+            <form th:action method="post" enctype="multipart/form-data">
+                <div class="row g-3">
+                    <input type="hidden" th:value="${itemDto.id}">
+
+                    <div class="form-group">
+                        <select th:field="${itemDto.itemSellStatus}" class="form-select">
+                            <option value="SELL">판매중</option>
+                            <option value="SOLD_OUT">품절</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="categoryId" class="form-label">카테고리</label>
+                        <select field="*{categoryId}" class="form-select" id="categoryId" name="categoryId">
+                            <option th:each="category : ${categoryDto}" th:value="${category.categoryId}" th:text="${category.categoryName}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="itemName" class="form-label">상품명</label>
+                        <input type="text" class="form-control" id="itemName" name="itemName" th:value="${itemDto.itemName}">
+                    </div>
+                    <div class="col-12">
+                        <label for="price" class="form-label">가격</label>
+                        <input type="text" class="form-control" id="price" name="price" th:value="${itemDto.price}">
+                    </div>
+                    <div class="col-12">
+                        <label for="stockNumber" class="form-label">재고</label>
+                        <input type="text" class="form-control" id="stockNumber" name="stockNumber" th:value="${itemDto.stockNumber}">
+                    </div>
+                    <div class="col-12">
+                        <label for="itemDetail" class="form-label">상품 설명</label>
+                        <input type="text" class="form-control" name="itemDetail" id="itemDetail" th:value="${itemDto.itemDetail}">
+                    </div>
+
+                    <div class="form-group" th:each="itemImgDto, status: ${itemDto.itemImgDtoList}">
+                        <div class="custom-file img-div">
+                            <input type="file" class="custom-file-input" name="itemImgFile">
+                            <input type="hidden" name="itemImgIds" th:value="${itemImgDto.id}">
+                            <label class="custom-file-label" th:text="${not #strings.isEmpty(itemImgDto.oriImgName)} ? ${itemImgDto.oriImgName} : '상품이미지' + ${status.index+1}"></label>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-lg text-white" style="background-color: #5F0080;" type="submit">상품 수정</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div th:fragment="nav-1">
+    <style>
+        .container { font-family: 'Noto Sans'; margin-top: 20px; }
+       .btn-1 {
+           color: black;
+           font-size: 17px;
+           font-weight: bold;
+           text-decoration: none;
+       }
+       .btn-2 {
+           color: black;
+           font-size: 17px;
+           font-weight: bold;
+           text-decoration: none;
+       }
+    </style>
+
+
+    <div class="container">
+        <div class="header-top">
+            <div class="d-flex justify-content-end">
+
+                <!--  비 로그인 페이지  -->
+                <a href="/login" class="btn-1" sec:authorize="isAnonymous()" >로그인</a>&nbsp;&nbsp;
+                <a href="/join"  class="btn-1" sec:authorize="isAnonymous()" >회원가입</a>
+
+                <!--   로그인 유저 페이지 -->
+                <div sec:authorize="isAuthenticated()">
+                    <!--    관리자 페이지        -->
+                    <div sec:authorize="hasRole('ADMIN')" class="d-flex btn-1">
+                        <a class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle btn-2" data-toggle="dropdown" style="color: red;">관리자페이지</a>
+                            <div class="dropdown-menu btn-2">
+                                <a class="nav-link dropdown-item btn-2" href="/admin/page">관리자페이지</a>
+                                <a class="nav-link dropdown-item btn-2" href="/item/new">상품등록</a>
+                                <a class="nav-link dropdown-item btn-2" href="/admin/item/all">상품관리</a>
+                                <a class="nav-link dropdown-item btn-2" href="/admin/user/all">회원관리</a>
+                                <a class="nav-link dropdown-item btn-2" href="/categories">카테고리등록</a>
+                                <a class="nav-link dropdown-item btn-2" href="/categories/list">카테고리List</a>
+                            </div>
+                        </a>
+                        <a sec:authorize="isAuthenticated()" href="/logout" class="nav-link px-2 link-dark">로그아웃</a> <!-- 로그인하여 인증된 사용자 -->
+                    </div>
+
+                    <!--    일반 유저 페이지        -->
+                    <div sec:authorize="hasRole('SNS') or hasRole('USER')" class="nav-link d-flex">
+                        <a class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle btn-1" data-toggle="dropdown">
+                                <span><span sec:authentication="principal.userId"></span>님</span>
+                            </a>
+                            <div class="dropdown-menu btn-2">
+                                <a class="nav-link dropdown-item nav-link btn-2" href="/member/page">마이 페이지</a>
+                                <a class="nav-link dropdown-item nav-link btn-2" href="/cart">장바구니</a>
+                                <a class="nav-link dropdown-item nav-link btn-2" href="/orders">주문목록</a>
+                                <a class="nav-link dropdown-item nav-link btn-2" href="/orders">주문목록</a>
+                                <a class="nav-link dropdown-item nav-link btn-2" href="/wishlist">찜한상품</a>
+                            </div>
+                            <a href="/logout" sec:authorize="isAuthenticated()" class="btn-1" style="margin-top: 9px;">로그아웃</a>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+</html>

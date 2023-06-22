@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content">
+
+    <div class="container">
+        <th:block layout:fragment="script">
+            <script th:inline="javascript">
+                function deleteWishListItem(event) {
+                    var obj = event.currentTarget;
+                    var wishListItemId = obj.dataset.id;
+                    var url = "/wishListItem/" + wishListItemId;
+
+                    $.ajax({
+                        url: url,
+                        type: "DELETE",
+                        dataType: "json",
+                        cache: false,
+                        success: function(result, status) {
+                            location.href = '/wishlist';
+                        },
+                        error: function(jqXHR, status, error) {
+                            if (jqXHR.status === 401) {
+                                alert('로그인 후 이용해주세요');
+                                location.href = '/login';
+                            } else {
+                                alert(JSON.stringify(error));
+                            }
+                        }
+                    });
+                }
+            </script>
+        </th:block>
+
+        <th:block layout:fragment="css">
+            <style>
+        .container{ font: 'Noto Sans'; }
+        .content-mg{
+            margin-left:30%;
+            margin-right:30%;
+            margin-top:2%;
+            margin-bottom:100px;
+        }
+        .repImgDiv{
+            margin-right:15px;
+            margin-left:15px;
+            height:auto;
+        }
+        .repImg{
+            height:100px;
+            width:100px;
+        }
+        .card{
+            width:750px;
+            height:100%;
+            padding:30px;
+            margin-bottom:20px;
+        }
+        .fs18{
+            font-size:18px
+        }
+        .fs24{
+            font-size:24px
+        }
+        .a {  margin-right:12px; }
+        .b { font: 'Noto Sans'; }
+    </style>
+        </th:block>
+
+        <h2 class="mb-4 b">찜한상품</h2>
+
+            <div class="card">
+                <div th:each="item : ${wishItems}" class="d-flex mb-3">
+
+                    <input type="hidden" id="wishListItemId" th:value="${item.wishListItemId}">
+
+                    <div class="repImgDiv">
+                        <img th:src="${item.savePath}" class="rounded repImg" th:alt="${item.itemName}">
+                    </div>
+                    <div class="align-self-center w-75">
+                        <span th:text="${item.itemName}" class="fs24 font-weight-bold"></span>
+                        <div class="fs18 font-weight-light">
+                            <span th:text="${item.price} +'원'"></span>
+                        </div>
+                        <input type="hidden" id="count" th:value="${item.count}">
+                    </div>
+
+                    <button type="button" class="align-self-center w-25 btn btn-outline-primary btn-sm " style="color: #5F0080; background-color: #FFFFFF; border-color: #5F0080;"
+                            th:data-id="${item.wishListItemId}" onclick="deleteWishListItem(event)">삭제</button>
+
+                    <hr class="my-4">
+                </div>
+            </div>
+</div>
+</div>
+</html>

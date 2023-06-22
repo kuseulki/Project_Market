@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content">
+
+    <style>
+    span {style="align: right";}
+
+    .alert{
+     color: white;
+     font-size : 23px;
+     background-color: #5F0080;
+     font-weight: bold;
+     text-align: center;
+     }
+
+    </style>
+
+    <div class="container">
+        <div class="alert alert-primary" role="alert">상품관리</div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">번호</th>
+                            <th scope="col">상품ID</th>
+                            <th scope="col">상품명</th>
+                            <th scope="col">가격</th>
+                            <th scope="col">재고</th>
+                            <th scope="col">삭제</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="allItem, i: ${items}">
+                            <td th:text="${i.count}">1</td>
+                            <td th:text="${allItem.getId()}">3번상품</td>
+                            <td th:text="${allItem.getItemName()}">상품명</td>
+                            <td th:text="${allItem.getPrice()}">가격</td>
+                            <td th:text="${allItem.getStockNumber()}">재고</td>
+                            <td><button type="button" class="btn btn-sm" style="background-color: #5F0080; color: white;"
+                                        th:onclick="|location.href='@{/item/delete/{id}(id=${allItem.getId()})}|">삭제</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+
+        </div>
+    </div>
+</div>
+</html>

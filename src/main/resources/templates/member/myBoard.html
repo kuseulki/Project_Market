@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content">
+
+    <div class="container">
+        <div class="text-center mb-3">
+            <br/>
+            <h3 th:text="|${member.getUserName()} 님의 작성글 입니다.|"></h3>
+            <br/>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">번호</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+                <th scope="col">작성일</th>
+                <th scope="col">조회</th>
+                <th scope="col">삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="board : ${boards}">
+                    <td th:text="${board.id}"></td>
+                    <td><a th:href="@{|/board/${board.id}|}" th:text="${board.title}"></a></td>
+                    <td th:text="${board.boardWrite}"></td>
+                    <td th:text="${#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td th:text="${board.count}"></td>
+                    <td><button th:onclick="|location.href='@{/board/delete/{id}(id=${board.id})}'|">삭제</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html>

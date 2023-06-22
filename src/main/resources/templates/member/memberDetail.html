@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content">
+
+    <style>
+        span {style="align: right";}
+
+        .alert{
+         color: white;
+         font-size : 20px;
+         background-color: #86A5FF;
+         font-weight: bold;
+         text-align: center;
+         }
+    </style>
+
+    <div class="container">
+        <div class="alert alert-primary" role="alert">회원 조회</div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">번호</th>
+                <th scope="col">회원 ID</th>
+                <th scope="col">이름</th>
+                <th scope="col">이메일</th>
+                <th scope="col">휴대폰</th>
+                <th scope="col">주소</th>
+                <th scope="col">수정</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${member.id}"></td>
+                <td th:text="${member.userId}"></td>
+                <td th:text="${member.userName}"></td>
+                <td th:text="${member.email}"></td>
+                <td th:text="${member.phone}"></td>
+                <td th:text="${member.address}"></td>
+                <td><a th:href="@{/member/{id}/edit(id=${member.id})}">수정</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html>

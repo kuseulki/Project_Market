@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content">
+
+    <style>
+    span {style="align: right";}
+
+    .alert{
+     color: white;
+     font-size : 23px;
+     background-color: #5F0080;
+     font-weight: bold;
+     text-align: center;
+     }
+
+    </style>
+
+    <div class="container">
+        <div class="alert alert-primary" role="alert">회원 조회</div>
+
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col">번호</th>
+                <th scope="col">회원 ID</th>
+                <th scope="col">이름</th>
+                <th scope="col">SNS</th>
+                <th scope="col">이메일</th>
+                <th scope="col">휴대폰</th>
+                <th scope="col">주소</th>
+                <th scope="col">수정</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="member, i: ${memberList}">
+                <td th:text="${i.count}">1</td>
+                <td th:text="${member.userId}"></td>
+                <td th:text="${member.userName}"></td>
+                <td th:text="${member.provider}"></td>
+                <td th:text="${member.email}"></td>
+                <td th:text="${member.phone}"></td>
+                <td th:text="${member.zipCode + ' ' + member.addr + ' ' + member.addrDetail}"></td>
+                <td><a th:href="@{/member/{id}/edit(id=${member.id})}">수정</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+</html>

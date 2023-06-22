@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th=http://www.thymeleaf.org xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div th:fragment="header">
+
+    <style>
+        .nav { font-size: 17px; font-weight: bold; display: flex; justify-content: center; align-items: center; }
+    </style>
+
+
+    <div class="p-3 mb-3 border-bottom">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start text-center">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"></a>
+
+                <div>
+                    <ul class="nav col-12 col-lg-auto mb-2 justify-content-center mb-md-0">
+
+                        <a class="nav-link dropdown-toggle btn-2" data-toggle="dropdown" style="margin-right: 80px;">카테고리</a>
+                        <div class="dropdown-menu btn-2">
+                            <a class="nav-link dropdown-item btn-2" href="/category/fruit">과일</a>
+                            <a class="nav-link dropdown-item btn-2" href="/category/meat">정육ㆍ계란</a>
+                            <a class="nav-link dropdown-item btn-2" href="/category/bakery">베이커리ㆍ치즈ㆍ델리</a>
+                            <a class="nav-link dropdown-item btn-2" href="/category/hair">헤어ㆍ바디ㆍ구강</a>
+                            <a class="nav-link dropdown-item btn-2" href="/category/kitchenutensils">주방용품</a>
+                            <a class="nav-link dropdown-item btn-2" href="/category/homeappliances">가전제품</a>
+                        </div>
+
+                        <li><a href="/item/list" class="nav-link link-dark" style="margin-right: 70px;">전체상품</a></li>
+                        <li><a href="/category/new" class="nav-link link-dark" style="margin-right: 50px;">신상품</a></li>
+                        <li><a href="/category/best" class="nav-link link-dark" style="margin-right: 50px;">베스트</a></li>
+                        <li><a href="/category/benefit" class="nav-link link-dark" style="margin-right: 50px;">특가/혜택</a></li>
+                        <li><a href="/board/list" class="nav-link link-dark" style="">게시판</a></li>
+
+                    </ul>
+                </div>
+
+                <ul class="nav col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 text-center">
+                    <li><a sec:authorize="hasRole('USER') or hasRole('SNS')" href="/item/list" class="nav-link link-dark" style="margin-right: 100px; margin-left:100px;">상품목록</a></li>
+                    <li><a sec:authorize="hasRole('USER') or hasRole('SNS')" href="/cart" class="nav-link link-dark" style="margin-right: 100px">장바구니</a></li>
+                    <li><a sec:authorize="hasRole('USER') or hasRole('SNS')" href="/orders" class="nav-link link-dark" style="margin-right: 100px">주문목록</a></li>
+                    <li><a sec:authorize="hasRole('USER') or hasRole('SNS')" href="/wishlist" class="nav-link link-dark" style="margin-right: 100px">찜하기</a></li>
+                    <li><a sec:authorize="hasRole('USER') or hasRole('SNS')" href="/board/list" class="nav-link link-dark" style="margin-right: 100px">게시판</a></li>
+
+                </ul>
+
+                <div sec:authorize="isAuthenticated()">
+
+                    <ul sec:authorize="hasRole('ROLE_ADMIN')" class="nav col-12 col-lg-auto mb-2 justify-content-center mb-md-0">
+
+                        <li><a href="/admin/page" class="nav-link p-2 link-dark" style="margin-right: 100px; margin-left:100px;">관리자 페이지</a></li>
+                        <li><a href="/item/new" class="nav-link p-2 link-dark" style="margin-right: 100px">상품등록</a></li>
+                        <li><a href="/admin/item/all" class="nav-link p-2 link-dark" style="margin-right: 100px">상품관리</a></li>
+                        <li><a href="/member" class="nav-link p-2 link-dark" style="margin-right: 100px">회원관리</a></li>
+                        <li><a href="/categories" class="nav-link p-2 link-dark" style="margin-right: 100px">카테고리등록</a></li>
+                        <li><a href="/categories/list" class="nav-link p-2 link-dark" style="margin-right: 100px">카테고리List</a></li>
+
+                    </ul>
+                </div>
+
+                <form class="d-flex" th:action="@{/}" method="get">
+                    <input class="form-control me-sm-2" type="text" name="searchKeyword" placeholder="검색">
+                    <button class="btn btn-secondary my-2 my-sm-0 bi bi-search" type="submit"></button>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+</html>

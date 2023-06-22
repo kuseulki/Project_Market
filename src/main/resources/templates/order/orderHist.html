@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content">
+
+    <div class="container">
+
+        <!-- 사용자 스크립트 추가 -->
+        <th:block layout:fragment="script">
+
+            <script th:inline="javascript">
+            function cancelOrder(orderId) {
+                var url = "/order/" + orderId + "/cancel";
+                var paramData = {
+                    orderId : orderId,
+            };
+
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url      : url,
+                type     : "POST",
+                contentType : "application/json",
+                data     : param,
+                },
+                dataType : "json",
+                cache   : false,
+                success  : function(result, status){
+                    alert("주문이 취소 되었습니다.");
+                    location.href='/orders/' + [[${page}]];
+                },
+                error : function(jqXHR, status, error){
+                    if(jqXHR.status == '401'){
+                        alert('로그인 후 이용해주세요');
+                        location.href='/login';
+                    } else{
+                        alert(jqXHR.responseText);
+                    }
+                }
+            });
+        }
+    </script>
+        </th:block>
+
+        <!-- 사용자 CSS 추가 -->
+        <th:block layout:fragment="css">
+            <style>
+        .container{ font: 'Noto Sans'; }
+        .content-mg{
+            margin-left:30%;
+            margin-right:30%;
+            margin-top:2%;
+            margin-bottom:100px;
+        }
+        .repImgDiv{
+            margin-right:15px;
+            margin-left:15px;
+            height:auto;
+        }
+        .repImg{
+            height:100px;
+            width:100px;
+        }
+        .card{
+            width:750px;
+            height:100%;
+            padding:30px;
+            margin-bottom:20px;
+        }
+        .fs18{
+            font-size:18px
+        }
+        .fs24{
+            font-size:24px
+        }
+        .a {  margin-right:12px; }
+        .b { font: 'Noto Sans'; }
+    </style>
+        </th:block>
+
+        <h2 class="mb-4 b">주문 내역</h2>
+
+        <div th:each="order : ${orders.getContent()}">
+
+            <div class="d-flex mb-3 align-self-center">
+
+                <h4 th:text="${order.orderDate} + ' 주문'"></h4>
+            </div>
+
+            <div class="card d-flex">
+                <div th:each="orderItem : ${order.orderItemDtoList}" class="d-flex mb-3">
+                    <div class="repImgDiv">
+                        <img th:src="${orderItem.savePath}" class="rounded repImg" th:alt="${orderItem.itemName}">
+                    </div>
+
+                    <div class="align-self-center w-75">
+                        <table style="background-color: transparent; border-collapse: collapse;">
+                            <tr>
+                                <td style="border: none;">
+                                    <span th:text="상품명" class="a fs18 font-weight-light"></span>
+                                </td>
+                                <td style="border: none;">
+                                    <span th:text="${orderItem.itemName}" class="fs18 font-weight-light"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: none;">
+                                    <span th:text="결제금액" class="a fs18 font-weight-light"></span>
+                                </td>
+                                <td style="border: none;">
+                                    <span th:text="${orderItem.orderPrice * orderItem.count + '원'}" class="fs18 font-weight-light"></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div th:with="start=${(orders.number/maxPage)*maxPage + 1}, end=(${(orders.totalPages == 0) ? 1 : (start + (maxPage - 1) < orders.totalPages ? start + (maxPage - 1) : orders.totalPages)})" >
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item" th:classappend="${orders.number eq 0}?'disabled':''">
+                    <a th:href="@{'/orders/' + ${orders.number-1}}" aria-label='Previous' class="page-link">
+                        <span aria-hidden='true'>Previous</span>
+                    </a>
+                </li>
+
+                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${orders.number eq page-1}?'active':''">
+                    <a th:href="@{'/orders/' + ${page-1}}" th:inline="text" class="page-link">[[${page}]]</a>
+                </li>
+
+                <li class="page-item" th:classappend="${orders.number+1 ge orders.totalPages}?'disabled':''">
+                    <a th:href="@{'/orders/' + ${orders.number+1}}" aria-label='Next' class="page-link">
+                        <span aria-hidden='true'>Next</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+
+
+
+</div>
+</div>
+</html>

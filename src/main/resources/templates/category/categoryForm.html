@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content">
+
+    <style>
+        .r-1 { font: 'Noto Sans'; }
+    </style>
+    <div class="container">
+
+        <h2 class="r-1 py-5"> 카테고리 등록 </h2>
+        <br>
+
+            <form th:action="@{/categories}" th:object="${categoryDto}" method="post">
+
+                <div class="mb-3 row">
+                    <label for="categoryName" class="label col-sm-3 col-form-label r-1" style="font-size:20px;"> 카테고리 명 </label>
+                    <div class="col-sm-6">
+                        <input class="form-control form-control-lg" type="text" id="categoryName" th:field="*{categoryName}">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label for="categoryId" class="label col-sm-3 col-form-label r-1" style="font-size:20px;"> 카테고리 ID </label>
+                    <div class="col-sm-6">
+                        <input class="form-control form-control-lg" type="number" id="categoryId" th:field="*{categoryId}" min="1">
+                    </div>
+                </div>
+
+                <hr class="my-5">
+                <div class="row justify-content-center">
+                    <button type="submit" class="btn btn-lg text-white col-sm-4" style="background-color: #5F0080; height: 50px;">카테고리 생성</button>
+                </div>
+            </form>
+
+    </div>
+</div>
+
+</html>
